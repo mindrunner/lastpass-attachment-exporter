@@ -16,18 +16,16 @@ for id in `lpass ls | sed -n "s/^.*id:\s*\([0-9]*\).*$/\1/p"`; do
     if [[ -z  ${attname}  ]]; then
       attname=${path#*/}
     fi
+
     path=${path//\\//}
-
-    if [[ !  -z  ${attid}  ]]; then
-      echo ${id} - ${path} ": " ${attid} "-" ${attname}
-    fi
-
     mkdir -p "${path}"
     out=${path}/${attname}
 
     if [[ -f ${out} ]]; then
         out=${path}/${attcount}_${attname}
     fi
+
+    echo ${id} - ${path} ": " ${attid} "-" ${attname} " > " ${out}
 
     lpass show --attach=${attid} ${id} --quiet > "${out}"
 
